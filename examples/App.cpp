@@ -9,9 +9,8 @@
 namespace jaeger_ceph {
 
 
-void setUpTracer(const char* serviceToTrace)
+void setUpTracer(const char* configFileAddress, const char* serviceToTrace)
 {
-    const char* configFileAddress = "/home/d/config.yml";
     auto configYAML = YAML::LoadFile(configFileAddress);
     auto config = jaegertracing::Config::parse(configYAML);
     auto tracer = jaegertracing::Tracer::make(
@@ -65,10 +64,14 @@ const std::unique_ptr<opentracing::Span> tracedFunction(const char* funcContext)
   }
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+  if (argc < 2) {
+        std::cerr << "usage: " << argv[0] << " <config-yaml-path>\n";
+        return 1;
+    }
 
-    jaeger_ceph::setUpTracer("f");
+    jaeger_ceph::setUpTracer(argv[1],"f");
     const std::unique_ptr<opentracing::Span>& span = jaeger_ceph::tracedFunction("funcCtx");
     jaeger_ceph::tracedSubroutine(span,"subroutineCtx");
 //  assert(parentSpan);
