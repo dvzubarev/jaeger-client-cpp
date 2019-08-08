@@ -48,7 +48,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
 endif()
 
 hunter_add_package(thrift)
-find_package(thrift ${hunter_config} REQUIRED)
+find_package(thrift 0.11.0 ${hunter_config} REQUIRED)
 if(HUNTER_ENABLED)
   list(APPEND LIBS thrift::thrift_static)
 else()
@@ -59,12 +59,12 @@ list(APPEND package_deps thrift)
 hunter_add_package(opentracing-cpp)
 # Not `${hunter_config}` because OpenTracing provides its own
 # OpenTracingConfig.cmake file
-find_package(OpenTracing CONFIG REQUIRED)
+find_package(OpenTracing ${hunter_config} REQUIRED)
 list(APPEND LIBS OpenTracing::opentracing-static)
 list(APPEND package_deps OpenTracing)
 
 hunter_add_package(nlohmann_json)
-find_package(nlohmann_json CONFIG REQUIRED)
+find_package(nlohmann_json 2.1.0 ${hunter_config} REQUIRED)
 list(APPEND LIBS nlohmann_json)
 list(APPEND package_deps nlohmann_json)
 
@@ -80,7 +80,7 @@ if(JAEGERTRACING_WITH_YAML_CPP)
   hunter_add_package(yaml-cpp)
   # Not `${hunter_config}` because yaml-cpp provides its own
   # yaml-cpp-config.cmake file
-  find_package(yaml-cpp CONFIG REQUIRED)
+  find_package(yaml-cpp ${hunter_config} REQUIRED)
   if(HUNTER_ENABLED)
       list(APPEND LIBS yaml-cpp::yaml-cpp)
   else()
@@ -358,6 +358,7 @@ include(GNUInstallDirs)
 #   * <prefix>/lib*/
 #   * <prefix>/include/
 set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+set(include_install_dir "include")
 
 set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
 

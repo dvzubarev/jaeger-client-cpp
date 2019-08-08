@@ -40,6 +40,7 @@ matrix:
     env:
     - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6 && CMAKE_OPTIONS='-DCMAKE_BUILD_TYPE=Debug
       -DBUILD_SHARED_LIBS=ON -DJAEGERTRACING_COVERAGE=ON'"
+    - NO_HUNTER=ON
   - os: linux
     addons:
       apt:
