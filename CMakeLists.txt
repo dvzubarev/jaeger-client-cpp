@@ -34,6 +34,7 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(HUNTER_ENABLED FALSE)
 if(HUNTER_ENABLED)
   set(hunter_config "CONFIG")
 else()
@@ -60,11 +61,11 @@ hunter_add_package(opentracing-cpp)
 # Not `${hunter_config}` because OpenTracing provides its own
 # OpenTracingConfig.cmake file
 find_package(OpenTracing ${hunter_config} REQUIRED)
-list(APPEND LIBS OpenTracing::opentracing-static)
+list(APPEND LIBS OpenTracing::opentracing)
 list(APPEND package_deps OpenTracing)
 
 hunter_add_package(nlohmann_json)
-find_package(nlohmann_json 2.1.0 ${hunter_config} REQUIRED)
+find_package(nlohmann_json 3.1.2 ${hunter_config} REQUIRED)
 list(APPEND LIBS nlohmann_json)
 list(APPEND package_deps nlohmann_json)
 
