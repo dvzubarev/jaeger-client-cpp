@@ -58,8 +58,11 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
   message(FATAL_ERROR "Must use gcc >= 4.9")
 endif()
 
-hunter_add_package(thrift)
-find_package(thrift ${hunter_config} REQUIRED)
+if(NOT THRIFT_FOUND)
+  include(Buildthrift)
+  build_thrift()
+endif()
+
 if(HUNTER_ENABLED)
   list(APPEND LIBS thrift::thrift_static)
 else()
