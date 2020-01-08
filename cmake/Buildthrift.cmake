@@ -14,9 +14,9 @@ function(build_thrift)
     set(make_cmd ${CMAKE_COMMAND} --build <BINARY_DIR> --target thrift)
   endif()
 
-  include(FetchContent)
+  include(ExternalProject)
   include(CheckIncludeFileCXX)
-  FetchContent_Declare(thrift
+  ExternalProject_Add(thrift
     GIT_REPOSITORY https://github.com/apache/thrift.git
     GIT_TAG origin/0.11.0
     UPDATE_COMMAND "${THRIFT_SOURCE_DIR}/bootstrap.sh &&
@@ -30,10 +30,9 @@ function(build_thrift)
     INSTALL_COMMAND "true"
     )
 
-  FetchContent_GetProperties(thrift)
-  if(NOT thrift_POPULATED)
-    FetchContent_Populate(thrift)
-    find_package(thrift REQUIRED)
-  endif()
+  # set the include directory variable and include it
+  set(THRIFT_INCLUDE_DIRS ${SOURCE_DIR}/include)
+  include_directories(${THRIFT_INCLUDE_DIRS})
   CHECK_INCLUDE_FILE_CXX("thrift/Thrift.h" HAVE_THRIFT)
 endfunction()
+
