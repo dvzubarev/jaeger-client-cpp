@@ -72,14 +72,8 @@ hunter_add_package(opentracing-cpp)
 # Not `${hunter_config}` because OpenTracing provides its own
 # OpenTracingConfig.cmake file
 find_package(OpenTracing CONFIG REQUIRED)
-# Under Windows, link dynamically with OpenTracing
-if (WIN32)
-  list(APPEND LIBS OpenTracing::opentracing)
-  set(OPENTRACING_LIB OpenTracing::opentracing)
-else()
-  list(APPEND LIBS OpenTracing::opentracing-static)
-  set(OPENTRACING_LIB OpenTracing::opentracing-static)
-endif()
+list(APPEND LIBS OpenTracing::opentracing)
+set(OPENTRACING_LIB OpenTracing::opentracing)
 list(APPEND package_deps OpenTracing)
 
 hunter_add_package(nlohmann_json)
@@ -134,8 +128,8 @@ set(SRC
     src/jaegertracing/TraceID.cpp
     src/jaegertracing/Tracer.cpp
     src/jaegertracing/TracerFactory.cpp
-    src/jaegertracing/Sender.cpp
-    src/jaegertracing/ThriftSender.cpp
+    src/jaegertracing/Transport.cpp
+    src/jaegertracing/UDPTransport.cpp
     src/jaegertracing/baggage/BaggageSetter.cpp
     src/jaegertracing/baggage/RemoteRestrictionJSON.cpp
     src/jaegertracing/baggage/RemoteRestrictionManager.cpp
@@ -210,10 +204,8 @@ set(SRC
     src/jaegertracing/thrift-gen/zipkincore_types.cpp
     src/jaegertracing/utils/ErrorUtil.cpp
     src/jaegertracing/utils/HexParsing.cpp
-    src/jaegertracing/utils/EnvVariable.cpp
     src/jaegertracing/utils/RateLimiter.cpp
-    src/jaegertracing/utils/UDPTransporter.cpp
-    src/jaegertracing/utils/HTTPTransporter.cpp
+    src/jaegertracing/utils/UDPClient.cpp
     src/jaegertracing/utils/YAML.cpp
     src/jaegertracing/ThriftMethods.cpp)
 
@@ -320,7 +312,7 @@ if(BUILD_TESTING)
       src/jaegertracing/TraceIDTest.cpp
       src/jaegertracing/TracerFactoryTest.cpp
       src/jaegertracing/TracerTest.cpp
-      src/jaegertracing/ThriftSenderTest.cpp
+      src/jaegertracing/UDPTransportTest.cpp
       src/jaegertracing/baggage/BaggageTest.cpp
       src/jaegertracing/metrics/MetricsTest.cpp
       src/jaegertracing/metrics/NullStatsFactoryTest.cpp
@@ -331,15 +323,13 @@ if(BUILD_TESTING)
       src/jaegertracing/net/http/MethodTest.cpp
       src/jaegertracing/net/http/ResponseTest.cpp
       src/jaegertracing/propagation/PropagatorTest.cpp
-      src/jaegertracing/reporters/ConfigTest.cpp
       src/jaegertracing/reporters/ReporterTest.cpp
       src/jaegertracing/samplers/SamplerTest.cpp
       src/jaegertracing/testutils/MockAgentTest.cpp
       src/jaegertracing/testutils/TUDPTransportTest.cpp
       src/jaegertracing/utils/ErrorUtilTest.cpp
       src/jaegertracing/utils/RateLimiterTest.cpp
-      src/jaegertracing/utils/UDPSenderTest.cpp
-      src/jaegertracing/utils/HTTPTransporterTest.cpp)
+      src/jaegertracing/utils/UDPClientTest.cpp)
   target_link_libraries(
       UnitTest PRIVATE testutils GTest::main ${JAEGERTRACING_LIB})
   add_test(NAME UnitTest COMMAND UnitTest)
