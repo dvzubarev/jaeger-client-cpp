@@ -64,7 +64,8 @@ find_package(thrift ${hunter_config} REQUIRED)
 if(HUNTER_ENABLED)
   list(APPEND LIBS thrift::thrift_static)
 else()
-  list(APPEND LIBS ${THRIFT_LIBRARIES})
+  list(APPEND LIBS ${thrift_LIBRARIES})
+  include_directories(${thrift_INCLUDE_DIR})
 endif()
 list(APPEND package_deps thrift)
 
@@ -72,7 +73,7 @@ list(APPEND package_deps thrift)
 hunter_add_package(opentracing-cpp)
 # Not `${hunter_config}` because OpenTracing provides its own
 # OpenTracingConfig.cmake file
-find_package(OpenTracing CONFIG REQUIRED)
+find_package(OpenTracing 1.5.0 REQUIRED)
 # Under Windows, link dynamically with OpenTracing
 if (WIN32)
   list(APPEND LIBS OpenTracing::opentracing)

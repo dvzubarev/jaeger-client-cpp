@@ -15,9 +15,6 @@
 #include <thrift/protocol/TProtocol.h>
 #include <thrift/transport/TTransport.h>
 
-
-
-
 namespace jaegertracing { namespace crossdock { namespace thrift {
 
 struct Transport {
