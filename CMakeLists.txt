@@ -85,7 +85,7 @@ endif()
 list(APPEND package_deps OpenTracing)
 
 hunter_add_package(nlohmann_json)
-find_package(nlohmann_json CONFIG REQUIRED)
+find_package(nlohmann_json ${hunter_config} REQUIRED)
 list(APPEND LIBS nlohmann_json::nlohmann_json)
 list(APPEND package_deps nlohmann_json)
 
