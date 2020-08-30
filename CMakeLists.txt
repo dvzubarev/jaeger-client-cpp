@@ -64,7 +64,7 @@ find_package(thrift ${hunter_config} REQUIRED)
 if(HUNTER_ENABLED)
   list(APPEND LIBS thrift::thrift_static)
 else()
-  list(APPEND LIBS ${THRIFT_LIBRARIES})
+  list(APPEND LIBS ${thrift_LIBRARIES})
 endif()
 list(APPEND package_deps thrift)
 
