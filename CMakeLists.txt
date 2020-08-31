@@ -60,11 +60,11 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
 endif()
 
 hunter_add_package(thrift)
-find_package(thrift ${hunter_config} REQUIRED)
+find_package(Thrift CONFIG REQUIRED)
 if(HUNTER_ENABLED)
   list(APPEND LIBS thrift::thrift_static)
 else()
-  list(APPEND LIBS ${thrift_LIBRARIES})
+  list(APPEND LIBS thrift::thrift)
 endif()
 list(APPEND package_deps thrift)
 
